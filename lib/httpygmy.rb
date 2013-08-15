@@ -11,7 +11,6 @@ class HttPygmy
     @password = password
   end
   
-  
   def get(path = "", headers = {})
     uri = URI.parse("#{@base_url}#{path}")
     http = Net::HTTP.new(uri.host, uri.port)
