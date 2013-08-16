@@ -1,5 +1,6 @@
 describe HttPygmy do
   BASE_URL = "http://www.example.com"
+  HEADERS = { 'Accept' => 'application/json' }
   
   context "GET" do
     it "should do a simple GET" do
@@ -17,9 +18,9 @@ describe HttPygmy do
   
     it "should do a GET with headers" do
       expected_url = "http://www.example.com/"
-      stub_request(:get, expected_url).with(:headers => { 'Accept' => 'application/json' })
-      HttPygmy.new(BASE_URL).get "/", {"Accept" => "application/json"}
-      a_request(:get, expected_url).with(:headers => { 'Accept' => 'application/json' }).should have_been_made
+      stub_request(:get, expected_url).with(:headers => HEADERS)
+      HttPygmy.new(BASE_URL).get "/", HEADERS
+      a_request(:get, expected_url).with(:headers => HEADERS).should have_been_made
     end
   
     it "should do a GET with basic auth" do
@@ -40,9 +41,9 @@ describe HttPygmy do
     
     it "should to a POST with headers" do
       expected_url = "http://www.example.com/resource"
-      stub_request(:post, expected_url).with(:headers => { 'Accept' => 'application/json' })
-      HttPygmy.new(BASE_URL).post "/resource", {"Accept" => "application/json"}
-      a_request(:post, expected_url).with(:headers => { 'Accept' => 'application/json' }).should have_been_made
+      stub_request(:post, expected_url).with(:headers => HEADERS)
+      HttPygmy.new(BASE_URL).post "/resource", HEADERS
+      a_request(:post, expected_url).with(:headers => HEADERS).should have_been_made
     end
     
     it "should do a POST with a body" do
@@ -70,9 +71,9 @@ describe HttPygmy do
     
     it "should to a PUT with headers" do
       expected_url = "http://www.example.com/resource/1"
-      stub_request(:put, expected_url).with(:headers => { 'Accept' => 'application/json' })
-      HttPygmy.new(BASE_URL).put "/resource/1", {"Accept" => "application/json"}
-      a_request(:put, expected_url).with(:headers => { 'Accept' => 'application/json' }).should have_been_made
+      stub_request(:put, expected_url).with(:headers => HEADERS)
+      HttPygmy.new(BASE_URL).put "/resource/1", HEADERS
+      a_request(:put, expected_url).with(:headers => HEADERS).should have_been_made
     end
     
     it "should do a PUT with a body" do
@@ -100,9 +101,9 @@ describe HttPygmy do
     
     it "should to a DELETE with headers" do
       expected_url = "http://www.example.com/resource/1"
-      stub_request(:delete, expected_url).with(:headers => { 'Accept' => 'application/json' })
-      HttPygmy.new(BASE_URL).delete "/resource/1", {"Accept" => "application/json"}
-      a_request(:delete, expected_url).with(:headers => { 'Accept' => 'application/json' }).should have_been_made
+      stub_request(:delete, expected_url).with(:headers => HEADERS)
+      HttPygmy.new(BASE_URL).delete "/resource/1", HEADERS
+      a_request(:delete, expected_url).with(:headers => HEADERS).should have_been_made
     end
     
     it "should do a DELETE with basic auth" do
