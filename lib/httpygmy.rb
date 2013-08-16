@@ -19,5 +19,15 @@ class HttPygmy
     headers.keys.each {|key| request[key] = headers[key]}
     http.request(request)
   end
+  
+  def post(path, headers = {}, body = "")
+    uri = URI.parse("#{@base_url}#{path}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request.basic_auth @username, @password unless @username.nil?
+    headers.keys.each {|key| request[key] = headers[key]}
+    request.body = body
+    http.request(request)
+  end
 end
 
