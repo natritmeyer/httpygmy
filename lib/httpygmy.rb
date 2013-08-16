@@ -12,41 +12,36 @@ class HttPygmy
   end
   
   def get(path = "", headers = {})
-    uri = URI.parse("#{@base_url}#{path}")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request.basic_auth @username, @password unless @username.nil?
-    headers.keys.each {|key| request[key] = headers[key]}
+    http, request = configure_message path, headers, Net::HTTP::Get
     http.request(request)
   end
   
   def post(path, headers = {}, body = "")
-    uri = URI.parse("#{@base_url}#{path}")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri)
-    request.basic_auth @username, @password unless @username.nil?
-    headers.keys.each {|key| request[key] = headers[key]}
+    http, request = configure_message path, headers, Net::HTTP::Post
     request.body = body
     http.request(request)
   end
   
   def put(path, headers = {}, body = "")
-    uri = URI.parse("#{@base_url}#{path}")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Put.new(uri.request_uri)
-    request.basic_auth @username, @password unless @username.nil?
-    headers.keys.each {|key| request[key] = headers[key]}
+    http, request = configure_message path, headers, Net::HTTP::Put
     request.body = body
     http.request(request)
   end
   
   def delete(path, headers = {})
+    http, request = configure_message path, headers, Net::HTTP::Delete
+    http.request(request)
+  end
+  
+  private
+  
+  def configure_message(path, headers, http_method)
     uri = URI.parse("#{@base_url}#{path}")
     http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Delete.new(uri.request_uri)
+    request = http_method.new(uri.request_uri)
     request.basic_auth @username, @password unless @username.nil?
     headers.keys.each {|key| request[key] = headers[key]}
-    http.request(request)
+    return http, request
   end
 end
 
