@@ -78,5 +78,25 @@ describe HttPygmy do
       a_request(:put, "http://username:password@www.example.com/resource/1").with(:body => "this is the body").should have_been_made
     end
   end
+  
+  context "DELETE" do
+    it "should do a DELETE with a path" do
+      stub_request(:delete, "http://www.example.com/resource/1")
+      HttPygmy.new("http://www.example.com/resource").delete "/1"
+      a_request(:delete, "http://www.example.com/resource/1").should have_been_made
+    end
+    
+    it "should to a DELETE with headers" do
+      stub_request(:delete, "http://www.example.com/resource/1").with(:headers => { 'Accept' => 'application/json' })
+      HttPygmy.new("http://www.example.com/resource").delete "/1", {"Accept" => "application/json"}
+      a_request(:delete, "http://www.example.com/resource/1").with(:headers => { 'Accept' => 'application/json' }).should have_been_made
+    end
+    
+    it "should do a DELETE with basic auth" do
+      stub_request(:delete, "http://username:password@www.example.com/resource/1")
+      HttPygmy.new("http://www.example.com/resource", "username", "password").delete "/1", {}
+      a_request(:delete, "http://username:password@www.example.com/resource/1").should have_been_made
+    end
+  end
 end
 

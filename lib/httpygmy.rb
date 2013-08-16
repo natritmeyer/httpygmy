@@ -39,5 +39,14 @@ class HttPygmy
     request.body = body
     http.request(request)
   end
+  
+  def delete(path, headers = {})
+    uri = URI.parse("#{@base_url}#{path}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Delete.new(uri.request_uri)
+    request.basic_auth @username, @password unless @username.nil?
+    headers.keys.each {|key| request[key] = headers[key]}
+    http.request(request)
+  end
 end
 
