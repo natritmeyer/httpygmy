@@ -52,5 +52,31 @@ describe HttPygmy do
       a_request(:post, "http://username:password@www.example.com/resource/").with(:body => "this is the body").should have_been_made
     end
   end
+  
+  context "PUT" do
+    it "should do a PUT with a path" do
+      stub_request(:put, "http://www.example.com/resource/1")
+      HttPygmy.new("http://www.example.com/resource").put "/1"
+      a_request(:put, "http://www.example.com/resource/1").should have_been_made
+    end
+    
+    it "should to a PUT with headers" do
+      stub_request(:put, "http://www.example.com/resource/1").with(:headers => { 'Accept' => 'application/json' })
+      HttPygmy.new("http://www.example.com/resource").put "/1", {"Accept" => "application/json"}
+      a_request(:put, "http://www.example.com/resource/1").with(:headers => { 'Accept' => 'application/json' }).should have_been_made
+    end
+    
+    it "should do a PUT with a body" do
+      stub_request(:put, "http://www.example.com/resource/1").with :body => "this is the body"
+      HttPygmy.new("http://www.example.com/resource").put "/1", {}, "this is the body"
+      a_request(:put, "http://www.example.com/resource/1").with(:body => "this is the body").should have_been_made
+    end
+    
+    it "should do a PUT with basic auth" do
+      stub_request(:put, "http://username:password@www.example.com/resource/1")
+      HttPygmy.new("http://www.example.com/resource", "username", "password").put "/1", {}, "this is the body"
+      a_request(:put, "http://username:password@www.example.com/resource/1").with(:body => "this is the body").should have_been_made
+    end
+  end
 end
 
