@@ -29,52 +29,52 @@ describe HttPygmy do
   
   context "POST" do
     it "should do a POST with a path" do
-      stub_request(:post, "http://www.example.com/resource/")
-      HttPygmy.new("http://www.example.com/resource").post "/"
-      a_request(:post, "http://www.example.com/resource/").should have_been_made
+      stub_request(:post, "http://www.example.com/resource")
+      HttPygmy.new(BASE_URL).post "/resource"
+      a_request(:post, "http://www.example.com/resource").should have_been_made
     end
     
     it "should to a POST with headers" do
-      stub_request(:post, "http://www.example.com/resource/").with(:headers => { 'Accept' => 'application/json' })
-      HttPygmy.new("http://www.example.com/resource").post "/", {"Accept" => "application/json"}
-      a_request(:post, "http://www.example.com/resource/").with(:headers => { 'Accept' => 'application/json' }).should have_been_made
+      stub_request(:post, "http://www.example.com/resource").with(:headers => { 'Accept' => 'application/json' })
+      HttPygmy.new(BASE_URL).post "/resource", {"Accept" => "application/json"}
+      a_request(:post, "http://www.example.com/resource").with(:headers => { 'Accept' => 'application/json' }).should have_been_made
     end
     
     it "should do a POST with a body" do
-      stub_request(:post, "http://www.example.com/resource/").with :body => "this is the body"
-      HttPygmy.new("http://www.example.com/resource").post "/", {}, "this is the body"
-      a_request(:post, "http://www.example.com/resource/").with(:body => "this is the body").should have_been_made
+      stub_request(:post, "http://www.example.com/resource").with :body => "this is the body"
+      HttPygmy.new(BASE_URL).post "/resource", {}, "this is the body"
+      a_request(:post, "http://www.example.com/resource").with(:body => "this is the body").should have_been_made
     end
     
     it "should do a POST with basic auth" do
-      stub_request(:post, "http://username:password@www.example.com/resource/")
-      HttPygmy.new("http://www.example.com/resource", "username", "password").post "/", {}, "this is the body"
-      a_request(:post, "http://username:password@www.example.com/resource/").with(:body => "this is the body").should have_been_made
+      stub_request(:post, "http://username:password@www.example.com/resource")
+      HttPygmy.new(BASE_URL, "username", "password").post "/resource", {}, "this is the body"
+      a_request(:post, "http://username:password@www.example.com/resource").with(:body => "this is the body").should have_been_made
     end
   end
   
   context "PUT" do
     it "should do a PUT with a path" do
       stub_request(:put, "http://www.example.com/resource/1")
-      HttPygmy.new("http://www.example.com/resource").put "/1"
+      HttPygmy.new(BASE_URL).put "/resource/1"
       a_request(:put, "http://www.example.com/resource/1").should have_been_made
     end
     
     it "should to a PUT with headers" do
       stub_request(:put, "http://www.example.com/resource/1").with(:headers => { 'Accept' => 'application/json' })
-      HttPygmy.new("http://www.example.com/resource").put "/1", {"Accept" => "application/json"}
+      HttPygmy.new(BASE_URL).put "/resource/1", {"Accept" => "application/json"}
       a_request(:put, "http://www.example.com/resource/1").with(:headers => { 'Accept' => 'application/json' }).should have_been_made
     end
     
     it "should do a PUT with a body" do
       stub_request(:put, "http://www.example.com/resource/1").with :body => "this is the body"
-      HttPygmy.new("http://www.example.com/resource").put "/1", {}, "this is the body"
+      HttPygmy.new(BASE_URL).put "/resource/1", {}, "this is the body"
       a_request(:put, "http://www.example.com/resource/1").with(:body => "this is the body").should have_been_made
     end
     
     it "should do a PUT with basic auth" do
       stub_request(:put, "http://username:password@www.example.com/resource/1")
-      HttPygmy.new("http://www.example.com/resource", "username", "password").put "/1", {}, "this is the body"
+      HttPygmy.new(BASE_URL, "username", "password").put "/resource/1", {}, "this is the body"
       a_request(:put, "http://username:password@www.example.com/resource/1").with(:body => "this is the body").should have_been_made
     end
   end
@@ -82,19 +82,19 @@ describe HttPygmy do
   context "DELETE" do
     it "should do a DELETE with a path" do
       stub_request(:delete, "http://www.example.com/resource/1")
-      HttPygmy.new("http://www.example.com/resource").delete "/1"
+      HttPygmy.new(BASE_URL).delete "/resource/1"
       a_request(:delete, "http://www.example.com/resource/1").should have_been_made
     end
     
     it "should to a DELETE with headers" do
       stub_request(:delete, "http://www.example.com/resource/1").with(:headers => { 'Accept' => 'application/json' })
-      HttPygmy.new("http://www.example.com/resource").delete "/1", {"Accept" => "application/json"}
+      HttPygmy.new(BASE_URL).delete "/resource/1", {"Accept" => "application/json"}
       a_request(:delete, "http://www.example.com/resource/1").with(:headers => { 'Accept' => 'application/json' }).should have_been_made
     end
     
     it "should do a DELETE with basic auth" do
       stub_request(:delete, "http://username:password@www.example.com/resource/1")
-      HttPygmy.new("http://www.example.com/resource", "username", "password").delete "/1", {}
+      HttPygmy.new(BASE_URL, "username", "password").delete "/resource/1", {}
       a_request(:delete, "http://username:password@www.example.com/resource/1").should have_been_made
     end
   end
