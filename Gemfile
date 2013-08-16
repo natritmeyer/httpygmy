@@ -4,5 +4,6 @@ group :development do
   gem "rake"
   gem "rspec"
   gem "webmock"
+  gem "simplecov"
 end
 
