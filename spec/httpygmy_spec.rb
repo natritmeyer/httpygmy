@@ -22,6 +22,13 @@ describe HttPygmy do
       HttPygmy.new(BASE_URL).get "/", HEADERS
       a_request(:get, expected_url).with(:headers => HEADERS).should have_been_made
     end
+    
+    it "should do a GET with default headers" do
+      expected_url = "http://www.example.com/"
+      stub_request(:get, expected_url).with(:headers => HEADERS)
+      HttPygmy.new(BASE_URL, HEADERS).get "/"
+      a_request(:get, expected_url).with(:headers => HEADERS).should have_been_made
+    end
   
     it "should do a GET with basic auth" do
       expected_url = "http://username:password@www.example.com"
