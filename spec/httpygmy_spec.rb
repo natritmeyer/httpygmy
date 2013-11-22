@@ -26,7 +26,7 @@ describe HttPygmy do
     it "should do a GET with basic auth" do
       expected_url = "http://username:password@www.example.com"
       stub_request(:get, expected_url)
-      HttPygmy.new(BASE_URL, "username", "password").get "/"
+      HttPygmy.new(BASE_URL, {}, "username", "password").get "/"
       a_request(:get, expected_url).should have_been_made
     end
   end
@@ -56,8 +56,15 @@ describe HttPygmy do
     it "should do a POST with basic auth" do
       expected_url = "http://username:password@www.example.com/resource"
       stub_request(:post, expected_url)
-      HttPygmy.new(BASE_URL, "username", "password").post "/resource", {}, "this is the body"
+      HttPygmy.new(BASE_URL, {}, "username", "password").post "/resource", {}, "this is the body"
       a_request(:post, expected_url).with(:body => "this is the body").should have_been_made
+    end
+    
+    it "should do a POST with non default headers" do
+      expected_url = "http://www.example.com/resource"
+      stub_request(:post, expected_url).with(:headers => {'Accept'=>'application/json', 'Content-Type'=>'application/xml'})
+      HttPygmy.new(BASE_URL, HEADERS).post "/resource", {'Content-Type' => 'application/xml'}
+      a_request(:post, expected_url).with(:headers => {'Accept'=>'application/json', 'Content-Type'=>'application/xml'}).should have_been_made
     end
   end
   
@@ -86,7 +93,7 @@ describe HttPygmy do
     it "should do a PUT with basic auth" do
       expected_url = "http://username:password@www.example.com/resource/1"
       stub_request(:put, expected_url)
-      HttPygmy.new(BASE_URL, "username", "password").put "/resource/1", {}, "this is the body"
+      HttPygmy.new(BASE_URL, {}, "username", "password").put "/resource/1", {}, "this is the body"
       a_request(:put, expected_url).with(:body => "this is the body").should have_been_made
     end
   end
@@ -109,7 +116,7 @@ describe HttPygmy do
     it "should do a DELETE with basic auth" do
       expected_url = "http://username:password@www.example.com/resource/1"
       stub_request(:delete, expected_url)
-      HttPygmy.new(BASE_URL, "username", "password").delete "/resource/1", {}
+      HttPygmy.new(BASE_URL, {}, "username", "password").delete "/resource/1", {}
       a_request(:delete, expected_url).should have_been_made
     end
   end
